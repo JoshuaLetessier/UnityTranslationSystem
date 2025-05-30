@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Editor",
+    "\\Runtime",
+    "\\Runtime\\Core",
+    "\\Runtime\\Core\\Import",
+    "\\Runtime\\Type",
+    "\\Runtime\\Utils"
+  ],
+  "SelectedNode": "\\Runtime\\Utils\\Singleton.cs",
+  "PreviewInSolutionExplorer": false
+}
