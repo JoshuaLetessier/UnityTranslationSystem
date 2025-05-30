@@ -1,7 +1,9 @@
 {
   "name": "Faolline.TranslationSystem",
   "rootNamespace": "com.faolline.translationsystem",
-  "references": [],
+ "references": [
+    "Unity.TextMeshPro"
+  ],
   "includePlatforms": [],
   "autoReferenced": true
 }
