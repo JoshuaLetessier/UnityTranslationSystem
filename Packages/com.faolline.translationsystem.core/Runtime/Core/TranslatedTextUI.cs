@@ -2,36 +2,41 @@ using TMPro;
 using UnityEngine;
 using Scope.Faolline.Translation;
 
-[RequireComponent(typeof(TextMeshProUGUI))]
-public class TranslatedTextUI : MonoBehaviour, ITranslatableElement
+
+namespace com.faolline.translationsystem
 {
-    [SerializeField] private string translationKey;
 
-    private TextMeshProUGUI text;
-    private ITranslationService translationService;
-
-    private void Awake()
+    [RequireComponent(typeof(TextMeshProUGUI))]
+    public class TranslatedTextUI : MonoBehaviour, ITranslatableElement
     {
-        text = GetComponent<TextMeshProUGUI>();
-        translationService = TranslationLocator.Service;
-    }
+        [SerializeField] private string translationKey;
 
-    private void OnEnable()
-    {
-        translationService.OnLanguageChanged += RefreshTranslation;
-        RefreshTranslation(translationService.CurrentLanguage);
-    }
+        private TextMeshProUGUI text;
+        private ITranslationService translationService;
 
-    private void OnDisable()
-    {
-        translationService.OnLanguageChanged -= RefreshTranslation;
-    }
-
-    public void RefreshTranslation(LanguageCode lang)
-    {
-        if (!string.IsNullOrEmpty(translationKey))
+        private void Awake()
         {
-            text.text = translationService.Get(translationKey, lang);
+            text = GetComponent<TextMeshProUGUI>();
+            translationService = TranslationLocator.Service;
+        }
+
+        private void OnEnable()
+        {
+            translationService.OnLanguageChanged += RefreshTranslation;
+            RefreshTranslation(translationService.CurrentLanguage);
+        }
+
+        private void OnDisable()
+        {
+            translationService.OnLanguageChanged -= RefreshTranslation;
+        }
+
+        public void RefreshTranslation(LanguageCode lang)
+        {
+            if (!string.IsNullOrEmpty(translationKey))
+            {
+                text.text = translationService.Get(translationKey, lang);
+            }
         }
     }
 }

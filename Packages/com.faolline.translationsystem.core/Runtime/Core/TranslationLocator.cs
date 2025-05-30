@@ -1,4 +1,5 @@
-namespace Scope.Faolline.Translation
+
+namespace com.faolline.translationsystem
 {
     public static class TranslationLocator
     {

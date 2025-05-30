@@ -1,28 +1,31 @@
 ﻿using UnityEditor;
 using com.faolline.translationsystem;
 
-[CustomEditor(typeof(LanguageDataBase))]
-public class LanguageDataBaseEditor : Editor
+namespace com.faolline.translationsystem
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(LanguageDataBase))]
+    public class LanguageDataBaseEditor : Editor
     {
-        var db = (LanguageDataBase)target;
-        EditorGUILayout.LabelField("Available Languages", EditorStyles.boldLabel);
-
-        EditorGUI.BeginChangeCheck();
-
-        foreach (SupportedLanguage lang in System.Enum.GetValues(typeof(SupportedLanguage)))
+        public override void OnInspectorGUI()
         {
-            bool current = db.IsLanguageEnabled(lang);
-            bool updated = EditorGUILayout.ToggleLeft(lang.GetNativeName(), current);
+            var db = (LanguageDataBase)target;
+            EditorGUILayout.LabelField("Available Languages", EditorStyles.boldLabel);
 
-            if (updated != current)
-                db.SetLanguageEnabled(lang, updated);
-        }
+            EditorGUI.BeginChangeCheck();
 
-        if (EditorGUI.EndChangeCheck())
-        {
-            EditorUtility.SetDirty(db);
+            foreach (SupportedLanguage lang in System.Enum.GetValues(typeof(SupportedLanguage)))
+            {
+                bool current = db.IsLanguageEnabled(lang);
+                bool updated = EditorGUILayout.ToggleLeft(lang.GetNativeName(), current);
+
+                if (updated != current)
+                    db.SetLanguageEnabled(lang, updated);
+            }
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(db);
+            }
         }
     }
 }
