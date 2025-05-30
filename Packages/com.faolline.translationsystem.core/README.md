@@ -22,3 +22,7 @@ A modular and extensible translation/localization system designed to be flexible
 2. Go to `Tools > Translation > Generate JSON From CSV`.
 3. Assign a `TranslateObjectText` to your TextMeshPro object.
 4. Select a translation key from the dropdown — done ✅
+
+
+## Instalation
+https://github.com/JoshuaLetessier/UnityTranslationSystem.git?path=Packages/com.faolline.translationsystem.core
