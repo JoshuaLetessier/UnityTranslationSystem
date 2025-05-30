@@ -1,0 +1,10 @@
+{
+  "name": "Faolline.TranslationSystem.Editor",
+  "references": [
+    "Faolline.TranslationSystem"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": true
+}
