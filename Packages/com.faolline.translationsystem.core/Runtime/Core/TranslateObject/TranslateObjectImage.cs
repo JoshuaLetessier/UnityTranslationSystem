@@ -1,3 +1,5 @@
+using UnityEngine.UI;
+
 namespace com.faolline.translationsystem
 {
     public class TranslateObjectImage : TranslateObject
