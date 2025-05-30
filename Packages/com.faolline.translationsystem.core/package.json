@@ -1,17 +1,17 @@
 {
-  "name": "com.faolline.translationsystem.core",
-  "version": "1.0.0",
-  "displayName": "Translation System",
-  "description": "",
-  "unity": "2023.3",
-  "author": {
-    "name": "Faolline",
-    "email": "faolline@gmail.com",
-    "url": "https://github.com/JoshuaLetessier/UnityTranslationSystem.git"
-  },
-  "dependencies": {
-    "com.faolline.savesystem.core": "1.0.0"
-  },
-  "keywords": [ "" ],
-  "license": "MIT"
+    "name": "com.faolline.savesystem.core",
+    "version": "1.0.0",
+    "displayName": "Save System",
+    "description": "A modular save system for Unity, supporting JSON and PlayerPrefs.",
+    "unity": "2023.3",
+    "author": {
+        "name": "Faolline",
+        "email": "faolline@gmail.com",
+        "url": "https://github.com/JoshuaLetessier/UnityTranslationSystem.git"
+    },
+    "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
+    },
+    "keywords": [ "save", "savesystem", "data" ],
+    "license": "MIT"
 }
