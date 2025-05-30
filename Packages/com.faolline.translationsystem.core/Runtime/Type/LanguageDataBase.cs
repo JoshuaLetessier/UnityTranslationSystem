@@ -61,6 +61,12 @@ namespace com.faolline.translationsystem
                 Debug.LogWarning("No language was enabled. Defaulted to EN.");
             }
         }
+
+        public void SetLanguages(List<SupportedLanguage> langs)
+        {
+            enabledLanguages = langs;
+        }
+
     }
 }
 
