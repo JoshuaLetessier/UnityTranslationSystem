@@ -4,7 +4,6 @@ namespace com.faolline.translationsystem
 {
     public class TranslateObjectImage : TranslateObject
     {
-        [SerializeField] private string translationKey;
         private Image image;
 
         private void Awake()
