@@ -16,12 +16,6 @@ namespace com.faolline.translationsystem
             string outputFolder = Path.Combine(basePath, "Generated");
 
             if (!Directory.Exists(folderPath))
-                Directory.CreateDirectory(folderPath);
-            if (!Directory.Exists(outputFolder))
-                Directory.CreateDirectory(outputFolder);
-
-
-            if (!Directory.Exists(folderPath))
             {
                 Debug.LogError("📁 Folder not found: " + folderPath);
                 return;
