@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace com.faolline.translationsystem
 {
-    [CustomEditor(typeof(TranslateObjectText), typeof(TranslateObjectImage))]
+    [CustomEditor(typeof(TranslateObjectText))]
     public class TranslateObjectTextEditor : Editor
     {
         private TranslationKeyDatabase database;
