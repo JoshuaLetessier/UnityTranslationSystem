@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "com.unity.textmeshpro": "3.0.6"
+    "com.unity.nuget.newtonsoft-json": "3.0.2"
   },
   "samples": [
     {
