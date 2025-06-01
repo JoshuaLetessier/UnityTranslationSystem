@@ -3,6 +3,7 @@
   "rootNamespace": "com.faolline.translationsystem",
  "references": [
     "Unity.TextMeshPro"
+    "Unity.Newtonsoft.Json"
   ],
   "includePlatforms": [],
   "autoReferenced": true
