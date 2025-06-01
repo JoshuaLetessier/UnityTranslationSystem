@@ -12,6 +12,14 @@
   "dependencies": {
     "com.unity.textmeshpro": "3.0.6"
   },
+  "samples": [
+    {
+      "displayName": "Dropdown Language Menu",
+    "description": "A ready-to-use prefab for language switching via TMP_Dropdown.",
+    "path": "Samples~/DropdownLanguageMenu"
+    }
+
+  ],
   "keywords": [ "localization", "translation", "text", "ui", "multilingual", "csv" ],
   "license": "MIT"
 }

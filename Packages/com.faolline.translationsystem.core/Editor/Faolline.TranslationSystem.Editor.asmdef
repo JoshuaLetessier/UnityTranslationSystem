@@ -1,7 +1,8 @@
 {
   "name": "Faolline.TranslationSystem.Editor",
   "references": [
-    "Faolline.TranslationSystem"
+    "Faolline.TranslationSystem",
+    "Unity.TextMeshPro"
   ],
   "includePlatforms": [
     "Editor"

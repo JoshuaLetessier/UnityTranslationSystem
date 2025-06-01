@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using UnityEngine;
 
@@ -12,7 +12,7 @@ namespace com.faolline.translationsystem
 
         private System.Action<SupportedLanguage> LanguageChangeEvent;
 
-        private SupportedLanguage defaultLaugage = SupportedLanguage.EN;
+        private SupportedLanguage defaultLaugage;
 
 
         [SerializeField]
@@ -28,8 +28,16 @@ namespace com.faolline.translationsystem
                 return;
             }
 
-            currentLanguage = defaultLaugage;
+            // Ne pas écraser si déjà assignée (car sérialisée)
+            if (!languageDataBase.IsLanguageEnabled(currentLanguage))
+            {
+                currentLanguage = GetDefaultLanguage(); // fallback
+            }
+
+            TranslationLoader.ReloadAll(languageDataBase.EnabledLanguages.ToList());
+            RefreshAll();
         }
+
 
         public void Register(TranslateObject tradObject)
         {
@@ -71,11 +79,10 @@ namespace com.faolline.translationsystem
             if (newLanguage.HasValue)
             {
                 currentLanguage = newLanguage.Value;
-                TranslationLoader.ReloadAll(languageDataBase.EnabledLanguages.ToList()); // recharge les traductions si modifi�es
+                TranslationLoader.ReloadAll(languageDataBase.EnabledLanguages.ToList()); // recharge les traductions si modifiées
                 RefreshAll();
             }
         }
-
 
         /// Method to get the current language
         ///     
@@ -116,5 +123,27 @@ namespace com.faolline.translationsystem
                 return languageDataBase.EnabledLanguages.Count > 0 ? languageDataBase.EnabledLanguages[0] : SupportedLanguage.EN;
             }
         }
+
+        public void ForceSetCurrentLanguage(SupportedLanguage lang)
+        {
+            currentLanguage = lang;
+            #if UNITY_EDITOR
+                if (!Application.isPlaying)
+                {
+                    // Éditeur simulate refresh
+                    var translatedObjects = FindObjectsByType<TranslateObject>(FindObjectsSortMode.None);
+                    foreach (var obj in translatedObjects)
+                    {
+                        obj.UpdateLanguage(lang);
+                    }
+                    return;
+                }  
+            #endif
+
+            // Play mode
+            TranslationLoader.ReloadAll(languageDataBase.EnabledLanguages.ToList());
+            RefreshAll();
+        }
+
     }
 }

@@ -10,7 +10,7 @@ namespace com.faolline.translationsystem
     {
         public override void OnInspectorGUI()
         {
-            DrawDefaultInspector(); // Affiche les autres propriétés normalement
+            DrawDefaultInspector();
 
             LanguageManager manager = (LanguageManager)target;
 
@@ -29,32 +29,30 @@ namespace com.faolline.translationsystem
                 return;
             }
 
-            // Rendu de l'éditeur uniquement si en PlayMode
-            if (Application.isPlaying)
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("🌍 Current Language", EditorStyles.boldLabel);
+
+            string[] languageNames = enabledLanguages.Select(lang => lang.GetNativeName()).ToArray();
+            int currentIndex = enabledLanguages.ToList().IndexOf(manager.GetCurrentLanguage()); // Convert IReadOnlyList to List
+
+            if (currentIndex < 0) currentIndex = 0;
+
+            int selectedIndex = EditorGUILayout.Popup("Current Language", currentIndex, languageNames);
+
+            if (selectedIndex != currentIndex)
             {
-                EditorGUILayout.Space();
-                EditorGUILayout.LabelField("🔁 Debug Language Switch (Play Mode)", EditorStyles.boldLabel);
-
-                string[] languageNames = enabledLanguages.Select(lang => lang.GetNativeName()).ToArray();
-                int currentIndex = enabledLanguages.ToList().IndexOf(manager.GetCurrentLanguage());
-                if (currentIndex < 0) currentIndex = 0;
-
-                int selectedIndex = EditorGUILayout.Popup("Current Language", currentIndex, languageNames);
-
-                if (selectedIndex != currentIndex)
-                {
-                    SupportedLanguage selectedLang = enabledLanguages[selectedIndex];
-                    manager.ChangeLanguage(selectedLang.ToString());
-                }
+                SupportedLanguage selectedLang = enabledLanguages[selectedIndex];
+                manager.ForceSetCurrentLanguage(selectedLang); // nouvelle méthode pour Editor
+                EditorUtility.SetDirty(manager);
             }
 
-            // Sélecteur de langue par défaut (même hors PlayMode)
+            // Sélecteur de langue par défaut
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("⚙️ Configuration", EditorStyles.boldLabel);
 
             SupportedLanguage currentDefault = manager.GetDefaultLanguage();
+            int defaultIndex = enabledLanguages.ToList().IndexOf(currentDefault); // Convert IReadOnlyList to List
 
-            int defaultIndex = enabledLanguages.ToList().IndexOf(currentDefault);
             if (defaultIndex < 0) defaultIndex = 0;
 
             string[] displayNames = enabledLanguages
@@ -66,10 +64,8 @@ namespace com.faolline.translationsystem
             {
                 SupportedLanguage newLang = enabledLanguages[newDefaultIndex];
                 manager.SetDefaultLanguage(newLang);
-                EditorUtility.SetDirty(manager); // Pour marquer l'objet comme modifié
+                EditorUtility.SetDirty(manager);
             }
-
         }
     }
-
 }
