@@ -15,7 +15,7 @@
   },
   "samples": [
     {
-      "displayName": "UI Prefabs (Language Menu & Translations)",
+      "displayName": "UI Prefabs",
       "description": "Ready-to-use prefabs for dropdowns, text and manager setup for multilingual UI.",
       "path": "Samples~"
     }
