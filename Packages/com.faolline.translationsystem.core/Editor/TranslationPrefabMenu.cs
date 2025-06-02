@@ -35,6 +35,7 @@ namespace com.faolline.translationsystem
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 string fileName = Path.GetFileNameWithoutExtension(path);
+                 Debug.Log($"🧩 Found prefab: {fileName} at {path}");
 
                 menu.AddItem(new GUIContent(fileName), false, () =>
                 {
