@@ -7,57 +7,57 @@ namespace com.faolline.translationsystem
 {
     public static class TranslationPrefabBrowser
     {
-        [MenuItem("GameObject/Translation/Show All Prefabs", false, 0)]
-        public static void ShowPrefabs()
+        private const string generatedFilePath = "Assets/UnityTranslationSystem/Editor/GeneratedTranslationMenu.cs";
+
+        public static void GenerateMenuFromPrefabs()
         {
-            // Rechercher tous les dossiers sous "Assets/Samples"
-            string[] sampleRoots = AssetDatabase.GetSubFolders("Assets/Samples");
-
-            // Collecte de tous les GUID de prefabs trouvés
-            var allPrefabGUIDs = sampleRoots
-                .SelectMany(folder => AssetDatabase.FindAssets("t:Prefab", new[] { folder }))
-                .Distinct()
-                .ToArray();
-
-            if (allPrefabGUIDs.Length == 0)
+            string[] prefabGuids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/Samples" });
+            if (prefabGuids.Length == 0)
             {
-                EditorUtility.DisplayDialog("No Prefabs Found", "No prefabs found under Assets/Samples.", "OK");
+                Debug.LogWarning("No prefabs found in Samples. No menu generated.");
                 return;
             }
 
-            GenericMenu menu = new GenericMenu();
+            string classCode = @"using UnityEditor;
+using UnityEngine;
 
-            Debug.Log("Sample roots:");
-            foreach (var folder in sampleRoots)
-                Debug.Log($"- {folder}");
+namespace com.faolline.translationsystem.generated
+{
+    public static class GeneratedTranslationMenu
+    {
+";
 
-            foreach (string guid in allPrefabGUIDs)
+            foreach (string guid in prefabGuids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 string fileName = Path.GetFileNameWithoutExtension(path);
-                 Debug.Log($"🧩 Found prefab: {fileName} at {path}");
+                string safeMethodName = fileName.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("-", "_");
 
-                menu.AddItem(new GUIContent(fileName), false, () =>
-                {
-                    GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                    if (prefab != null)
-                    {
-                        GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-                        Undo.RegisterCreatedObjectUndo(instance, "Create " + fileName);
-                        Selection.activeGameObject = instance;
+                classCode +=
+                    "        [MenuItem(\"GameObject/Translation/" + fileName + "\", false, 10)]\n" +
+                    "        public static void Create_" + safeMethodName + "()\n" +
+                    "        {\n" +
+                    "            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(\"" + path.Replace("\\", "/") + "\");\n" +
+                    "            if (prefab != null)\n" +
+                    "            {\n" +
+                    "                var instance = PrefabUtility.InstantiatePrefab(prefab) as GameObject;\n" +
+                    "                Undo.RegisterCreatedObjectUndo(instance, \"Create " + fileName + "\");\n" +
+                    "                Selection.activeGameObject = instance;\n" +
+                    "            }\n" +
+                    "        }\n\n";
+            }
+
+            classCode += @"    }
+}";
+
+            // Assure le dossier
+            string dir = Path.GetDirectoryName(generatedFilePath);
+            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+
+            File.WriteAllText(generatedFilePath, classCode);
+            AssetDatabase.Refresh();
+
+            Debug.Log($"✅ Generated static menu for {prefabGuids.Length} prefabs at: {generatedFilePath}");
                     }
-                });
-            }
-
-            Debug.Log($"Found {allPrefabGUIDs.Length} prefab GUIDs.");
-
-            var allFiles = Directory.GetFiles("Assets/Samples", "*.*", SearchOption.AllDirectories);
-            foreach (var file in allFiles)
-            {
-                Debug.Log("Seen: " + file);
-            }
-
-            menu.ShowAsContext();
-        }
-    }
+                }
 }
