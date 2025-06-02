@@ -1,7 +1,7 @@
 {
   "name": "com.faolline.translationsystem.core",
   "version": "1.0.0",
-  "displayName": "Translation System",
+  "displayName": "Translation_System",
   "description": "A modular and extensible translation system for Unity, with support for CSV-based editing, runtime language switching, and TextMeshPro integration.",
   "unity": "2023.3",
   "author": {
