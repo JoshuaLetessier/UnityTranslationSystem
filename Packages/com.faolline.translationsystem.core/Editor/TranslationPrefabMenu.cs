@@ -1,33 +1,40 @@
-using System.IO;
 using UnityEditor;
 using UnityEngine;
+using System.IO;
+using System.Linq;
 
 namespace com.faolline.translationsystem
 {
-    public static class TranslationPrefabMenu
+    public static class TranslationPrefabBrowser
     {
-        [MenuItem("GameObject/Translation/Show Available Prefabs", false, 0)]
-        public static void ShowTranslationPrefabs()
+        [MenuItem("GameObject/Translation/Show All Prefabs", false, 0)]
+        public static void ShowPrefabs()
         {
-            const string basePath = "Assets/Samples/Translation_System/1.0.0/Translation_System/Prefab";
+            // Rechercher tous les dossiers sous "Assets/Samples"
+            string[] sampleRoots = AssetDatabase.GetSubFolders("Assets/Samples");
 
-            string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { basePath });
-            if (guids.Length == 0)
+            // Collecte de tous les GUID de prefabs trouvés
+            var allPrefabGUIDs = sampleRoots
+                .SelectMany(folder => AssetDatabase.FindAssets("t:Prefab", new[] { folder }))
+                .Distinct()
+                .ToArray();
+
+            if (allPrefabGUIDs.Length == 0)
             {
-                EditorUtility.DisplayDialog("No Prefabs Found", "No prefabs were found in the package Samples~ folder.", "OK");
+                EditorUtility.DisplayDialog("No Prefabs Found", "No prefabs found under Assets/Samples.", "OK");
                 return;
             }
 
             GenericMenu menu = new GenericMenu();
 
-            foreach (string guid in guids)
+            foreach (string guid in allPrefabGUIDs)
             {
-                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                string fileName = Path.GetFileNameWithoutExtension(assetPath);
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                string fileName = Path.GetFileNameWithoutExtension(path);
 
                 menu.AddItem(new GUIContent(fileName), false, () =>
                 {
-                    GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+                    GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                     if (prefab != null)
                     {
                         GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
