@@ -27,6 +27,10 @@ namespace com.faolline.translationsystem
 
             GenericMenu menu = new GenericMenu();
 
+            Debug.Log("Sample roots:");
+            foreach (var folder in sampleRoots)
+                Debug.Log($"- {folder}");
+
             foreach (string guid in allPrefabGUIDs)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
@@ -42,6 +46,14 @@ namespace com.faolline.translationsystem
                         Selection.activeGameObject = instance;
                     }
                 });
+            }
+
+            Debug.Log($"Found {allPrefabGUIDs.Length} prefab GUIDs.");
+
+            var allFiles = Directory.GetFiles("Assets/Samples", "*.*", SearchOption.AllDirectories);
+            foreach (var file in allFiles)
+            {
+                Debug.Log("Seen: " + file);
             }
 
             menu.ShowAsContext();
