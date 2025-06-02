@@ -1,19 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using Newtonsoft.Json;
-using System.Linq;
 
 namespace com.faolline.translationsystem
 {
-    public static class TranslationLoader
+    public static class TranslationService
     {
-        private static readonly Dictionary<SupportedLanguage, Dictionary<string, string>> translationsByLang =
-            new Dictionary<SupportedLanguage, Dictionary<string, string>>();
+        private static readonly Dictionary<SupportedLanguage, Dictionary<string, string>> translationsByLang = new();
+        private static bool isLoaded = false;
 
-        public static void LoadAll(List<SupportedLanguage> enabledLanguages)
+        public static void LoadAll(IEnumerable<SupportedLanguage> enabledLanguages)
         {
+            if (isLoaded) return;
             translationsByLang.Clear();
+
             string folderPath = Path.Combine(Application.dataPath, "Translations/Generated");
 
             foreach (var lang in enabledLanguages)
@@ -37,24 +39,38 @@ namespace com.faolline.translationsystem
                 }
             }
 
+            isLoaded = true;
         }
 
-        public static void ReloadAll(List<SupportedLanguage> enabledLanguages)
+        public static void ReloadAll(IEnumerable<SupportedLanguage> enabledLanguages)
         {
-            translationsByLang.Clear();
+            isLoaded = false;
             LoadAll(enabledLanguages);
         }
 
-        public static string GetTranslation(SupportedLanguage lang, string key)
+        public static string Get(SupportedLanguage lang, string key)
         {
-            // Fix: Use LanguageManager.Instance to access the singleton instance
-            LoadAll(LanguageManager.Instance.GetLanguageDataBase().EnabledLanguages.ToList());
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                Debug.LogWarning("TranslationService.Get() called outside of PlayMode. Fallback to key.");
+                return key;
+            }
+#endif
+            var manager = LanguageManager.Instance;
+            if (manager == null || manager.GetLanguageDataBase() == null)
+            {
+                //Debug.LogWarning("TranslationService: LanguageManager or LanguageDataBase not available.");
+                return key;
+            }
+
+            LoadAll(manager.GetLanguageDataBase().EnabledLanguages);
 
             if (translationsByLang.TryGetValue(lang, out var dict) && dict.TryGetValue(key, out var value))
                 return value;
 
             Debug.LogWarning($"Missing translation: [{lang}] {key}");
-            return key; // fallback to key
+            return key;
         }
     }
 }

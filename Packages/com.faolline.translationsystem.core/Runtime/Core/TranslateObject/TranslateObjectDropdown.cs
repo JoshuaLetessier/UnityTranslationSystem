@@ -39,8 +39,9 @@ namespace com.faolline.translationsystem
 
             foreach (var opt in options)
             {
-                string label = TranslationLoader.GetTranslation(newLanguage, opt.translationKey);
-                dropdown.options.Add(new TMP_Dropdown.OptionData(label));
+                string value = TranslationService.Get(newLanguage, opt.translationKey);
+                if (!string.IsNullOrEmpty(value))
+                    dropdown.options.Add(new TMP_Dropdown.OptionData(value));
             }
 
             dropdown.RefreshShownValue();

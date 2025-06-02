@@ -17,7 +17,7 @@ namespace com.faolline.translationsystem
         {
             EnsureTextComponent();
 
-            string value = TranslationLoader.GetTranslation(newLanguage, translationKey);
+            string value = TranslationService.Get(newLanguage, translationKey);
             if (!string.IsNullOrEmpty(value))
                 text.text = value;
         }

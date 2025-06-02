@@ -34,7 +34,7 @@ namespace com.faolline.translationsystem
                 currentLanguage = GetDefaultLanguage(); // fallback
             }
 
-            TranslationLoader.ReloadAll(languageDataBase.EnabledLanguages.ToList());
+            TranslationService.ReloadAll(languageDataBase.EnabledLanguages.ToList());
             RefreshAll();
         }
 
@@ -79,7 +79,7 @@ namespace com.faolline.translationsystem
             if (newLanguage.HasValue)
             {
                 currentLanguage = newLanguage.Value;
-                TranslationLoader.ReloadAll(languageDataBase.EnabledLanguages.ToList()); // recharge les traductions si modifiées
+                TranslationService.ReloadAll(languageDataBase.EnabledLanguages.ToList()); // recharge les traductions si modifiées
                 RefreshAll();
             }
         }
@@ -141,7 +141,7 @@ namespace com.faolline.translationsystem
             #endif
 
             // Play mode
-            TranslationLoader.ReloadAll(languageDataBase.EnabledLanguages.ToList());
+            TranslationService.ReloadAll(languageDataBase.EnabledLanguages.ToList());
             RefreshAll();
         }
 
