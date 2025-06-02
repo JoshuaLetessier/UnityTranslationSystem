@@ -15,9 +15,9 @@
   },
   "samples": [
     {
-      "displayName": "Dropdown Language Menu",
-    "description": "A ready-to-use prefab for language switching via TMP_Dropdown.",
-    "path": "Samples~/DropdownLanguageMenu"
+      "displayName": "UI Prefabs (Language Menu & Translations)",
+      "description": "Ready-to-use prefabs for dropdowns, text and manager setup for multilingual UI.",
+      "path": "Samples~"
     }
 
   ],
