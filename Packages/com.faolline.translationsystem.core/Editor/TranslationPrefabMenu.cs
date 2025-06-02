@@ -6,12 +6,12 @@ namespace com.faolline.translationsystem
 {
     public static class TranslationPrefabMenu
     {
-        private const string packageSearchPath = "Packages/com.faolline.translationsystem.core/Samples~/";
-
         [MenuItem("GameObject/Translation/Show Available Prefabs", false, 0)]
         public static void ShowTranslationPrefabs()
         {
-            string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { packageSearchPath });
+            const string basePath = "Assets/Samples/Translation System";
+
+            string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { basePath });
             if (guids.Length == 0)
             {
                 EditorUtility.DisplayDialog("No Prefabs Found", "No prefabs were found in the package Samples~ folder.", "OK");
