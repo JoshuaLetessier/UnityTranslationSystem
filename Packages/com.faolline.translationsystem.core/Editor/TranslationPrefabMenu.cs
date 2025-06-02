@@ -9,7 +9,7 @@ namespace com.faolline.translationsystem
         [MenuItem("GameObject/Translation/Show Available Prefabs", false, 0)]
         public static void ShowTranslationPrefabs()
         {
-            const string basePath = "Assets/Samples/Translation System/Translation_System/Prefab";
+            const string basePath = "Assets/Samples/Translation_System/Translation_System/Prefab";
 
             string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { basePath });
             if (guids.Length == 0)
