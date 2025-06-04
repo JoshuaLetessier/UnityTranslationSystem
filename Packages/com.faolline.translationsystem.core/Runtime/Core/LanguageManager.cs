@@ -88,9 +88,14 @@ namespace com.faolline.translationsystem
         ///     
         /// <returns>The current language code</returns>
         /// 
-        public SupportedLanguage GetCurrentLanguage()
+        public string GetCurrentLanguage() => currentLanguage.ToString();
+
+        public void SetLanguageFromCode(string code)
         {
-            return currentLanguage;
+            if (System.Enum.TryParse(code, out SupportedLanguage lang))
+            {
+                ChangeLanguage(code);
+            }
         }
 
         public LanguageDataBase GetLanguageDataBase()
