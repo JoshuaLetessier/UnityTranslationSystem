@@ -36,6 +36,13 @@ Un `TextMeshPro` avec le composant `TranslateObjectText` attaché.
 
 ---
 
+### 🖼 TranslateImage.prefab
+Une `Image` avec le composant `TranslateObjectImage` attaché.
+
+- ✅ Se met automatiquement à jour selon la clé de traduction donnée
+
+---
+
 ## ✨ Comment utiliser ?
 
 1. Glissez un prefab dans votre scène
