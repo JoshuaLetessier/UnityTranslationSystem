@@ -97,7 +97,7 @@ namespace com.faolline.translationsystem
 
                 for (int j = 0; j < languages.Count; j++)
                 {
-                    string preview = string.IsNullOrEmpty(sheet.Rows[i].cells[j].text) ? "" : $"\"{sheet.Rows[i].cells[j].text}\"";
+                    string preview = string.IsNullOrEmpty(sheet.Rows[i].cells[j].text) ? "" : $"{sheet.Rows[i].cells[j].text}";
                     if (GUILayout.Button(preview, EditorStyles.textField, GUILayout.Width(150), GUILayout.Height(40)))
                     {
                         GUI.FocusControl(null);
@@ -152,7 +152,7 @@ namespace com.faolline.translationsystem
             {
                 var current = sheet.Rows[selectedRow].cells[selectedColumn];
 
-                TextRichEditor.DrawToolbar(updated => current.text = updated);
+                //TextRichEditor.DrawToolbar(updated => current.text = updated);
 
                 GUILayout.BeginVertical(GUI.skin.box);
                 GUILayout.Label("Preview:");
@@ -162,11 +162,24 @@ namespace com.faolline.translationsystem
                 GUILayout.EndVertical();
 
                 newScrollPos = EditorGUILayout.BeginScrollView(newScrollPos, GUILayout.Height(height * 0.70f));
+
+                // Focus contrôlé
+                GUI.SetNextControlName("RichTextArea");
+
+                // Affiche le champ
                 current.text = EditorGUILayout.TextArea(
                     current.text,
                     GUILayout.ExpandHeight(true),
                     GUILayout.ExpandWidth(true),
-                    GUILayout.MinHeight(120));
+                    GUILayout.MinHeight(120)
+                );
+
+                // Garde le focus actif
+                GUI.FocusControl("RichTextArea");
+
+                // Et gère l'insertion de balises si en cours
+                //TextRichEditor.HandleTagInsertion(ref current.text);
+
                 EditorGUILayout.EndScrollView();
             }
             else
