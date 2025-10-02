@@ -14,28 +14,29 @@ namespace com.faolline.translationsystem
         public static void LoadAll(IEnumerable<SupportedLanguage> enabledLanguages)
         {
             if (isLoaded) return;
-            translationsByLang.Clear();
 
-            string folderPath = Path.Combine(Application.dataPath, "Translations/Generated");
+            translationsByLang.Clear();
 
             foreach (var lang in enabledLanguages)
             {
-                string filePath = Path.Combine(folderPath, lang.ToString().ToLower() + ".json");
-                if (!File.Exists(filePath))
+                // Path Resources sans extension
+                var resourcePath = $"Translations/Generated/{lang.ToString().ToLower()}";
+                var textAsset = Resources.Load<TextAsset>(resourcePath);
+
+                if (textAsset == null)
                 {
-                    Debug.LogWarning($"Translation file not found: {filePath}");
+                    Debug.LogWarning($"Translation file not found in Resources: {resourcePath}.json");
                     continue;
                 }
 
                 try
                 {
-                    string json = File.ReadAllText(filePath);
-                    var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-                    translationsByLang[lang] = dict;
+                    var dict = JsonConvert.DeserializeObject<Dictionary<string, string>>(textAsset.text);
+                    translationsByLang[lang] = dict ?? new Dictionary<string, string>();
                 }
-                catch
+                catch (System.Exception ex)
                 {
-                    Debug.LogError($"Failed to parse translation file: {filePath}");
+                    Debug.LogError($"Failed to parse translations for {lang}: {ex.Message}");
                 }
             }
 
@@ -50,23 +51,15 @@ namespace com.faolline.translationsystem
 
         public static string Get(SupportedLanguage lang, string key)
         {
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
-            {
-                Debug.LogWarning("TranslationService.Get() called outside of PlayMode. Fallback to key.");
-                return key;
-            }
-#endif
+            if (string.IsNullOrEmpty(key)) return string.Empty;
+
             var manager = LanguageManager.Instance;
-            if (manager == null || manager.GetLanguageDataBase() == null)
-            {
-                //Debug.LogWarning("TranslationService: LanguageManager or LanguageDataBase not available.");
+            if (manager == null)
                 return key;
-            }
 
             LoadAll(manager.GetLanguageDataBase().EnabledLanguages);
 
-            if (translationsByLang.TryGetValue(lang, out var dict) && dict.TryGetValue(key, out var value))
+            if (translationsByLang.TryGetValue(lang, out var dict) && dict != null && dict.TryGetValue(key, out var value))
                 return value;
 
             Debug.LogWarning($"Missing translation: [{lang}] {key}");

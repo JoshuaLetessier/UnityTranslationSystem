@@ -1,0 +1,12 @@
+{
+  "name": "Faolline.DialogueSystem",
+  "rootNamespace": "com.faolline.dialoguesystem",
+  "references": [
+    "Unity.InputSystem",
+    "Faolline.TranslationSystem"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "autoReferenced": true,
+  "noEngineReferences": false
+}

@@ -10,7 +10,7 @@ namespace com.faolline.translationsystem
     {
         static TranslationInitializer()
         {
-            string translationsPath = Path.Combine("Assets", "Translations");
+            string translationsPath = Path.Combine("Assets", "Resources", "Translations");
             string csvPath = Path.Combine(translationsPath, "CSV");
             string genPath = Path.Combine(translationsPath, "Generated");
             string languageAssetPath = Path.Combine(translationsPath, "LanguageDatabase.asset");
@@ -46,7 +46,7 @@ namespace com.faolline.translationsystem
 
             if (created)
             {
-                Debug.Log("📁 Translation folders created in Assets/Translations/");
+                Debug.Log("📁 Translation folders created in Assets/Resources/Translations/");
                 AssetDatabase.Refresh();
             }
         }

@@ -1,0 +1,10 @@
+{
+  "name": "Faolline.DialogueSystem.Editor",
+  "rootNamespace": "com.faolline.dialoguesystem",
+  "references": [ "Faolline.DialogueSystem",
+    "Faolline.TranslationSystem"
+ ],
+  "includePlatforms": [ "Editor" ],
+  "autoReferenced": true,
+  "noEngineReferences": false
+}

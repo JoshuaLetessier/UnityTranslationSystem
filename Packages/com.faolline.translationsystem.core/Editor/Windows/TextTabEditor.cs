@@ -29,6 +29,10 @@ namespace com.faolline.translationsystem
 
             if (sheets.Count == 0)
                 SheetManager.AddSheet(sheets, "Default");
+
+            // Sélectionne la 1ère sheet si rien de sélectionné
+            if (selectedSheetIndex < 0 && sheets.Count > 0)
+                selectedSheetIndex = 0;
         }
 
         private void LoadLanguagesAndSheets()
@@ -67,13 +71,14 @@ namespace com.faolline.translationsystem
         {
             GUILayout.BeginHorizontal();
 
-            if (GUILayout.Button("\ud83d\udd01 Refresh Languages"))
+            if (GUILayout.Button("\u21bb Refresh Languages and CSV"))
             {
+                AssetDatabase.Refresh();           // s'assure que les CSV nouvellement ajoutés sont indexés
                 LoadLanguagesAndSheets();
+                Repaint();
             }
 
             TextTabEditorUI.DrawExportButton(sheets, languages, csvManager);
-
             GUILayout.EndHorizontal();
         }
     }

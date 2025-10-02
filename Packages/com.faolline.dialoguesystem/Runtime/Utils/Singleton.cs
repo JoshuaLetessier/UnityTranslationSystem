@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace com.faolline.translationsystem
+namespace com.faolline.dialoguesystem
 {
     public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
@@ -69,27 +69,4 @@ namespace com.faolline.translationsystem
         }
         protected Singleton() { }
     }
-
-#if UNITY_EDITOR
-    public abstract class SingletonEditorWindow<T> where T : UnityEditor.EditorWindow
-    {
-        private static T _instance;
-        private static readonly object _lock = new object();
-        public static T Instance
-        {
-            get
-            {
-                lock (_lock)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = UnityEditor.EditorWindow.GetWindow<T>();
-                    }
-                    return _instance;
-                }
-            }
-        }
-        protected SingletonEditorWindow() { }
-    }
-#endif
 }
