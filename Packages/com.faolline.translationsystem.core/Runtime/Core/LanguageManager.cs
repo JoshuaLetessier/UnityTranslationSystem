@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace com.faolline.translationsystem
 {
-    public class LanguageManager : Singleton<LanguageManager>
+    public class LanguageManager : SingletonMonoBehaviour<LanguageManager>
     {
         protected override bool IsPersistent => true;
 
@@ -123,7 +123,6 @@ namespace com.faolline.translationsystem
             }
             else
             {
-                Debug.LogWarning($"Default language {defaultLaugage} is not enabled. Falling back to first available.");
                 return languageDataBase.EnabledLanguages.Count > 0 ? languageDataBase.EnabledLanguages[0] : SupportedLanguage.EN;
             }
         }

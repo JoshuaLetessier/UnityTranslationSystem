@@ -1,0 +1,27 @@
+{
+  "name": "com.faolline.dialoguesystem.core",
+  "version": "1.0.0",
+  "displayName": "Dialogue_System",
+  "description": "A modular and extensible dialogue system for Unity, with support for CSV-based editing, runtime language switching, and TextMeshPro integration.",
+  "unity": "2023.3",
+  "author": {
+    "name": "Faolline",
+    "email": "faolline@gmail.com",
+    "url": "https://github.com/JoshuaLetessier/UnitySaveSystem.git"
+  },
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.6",
+    "com.unity.nuget.newtonsoft-json": "3.0.2",
+    "com.faolline.translationsystem.core": "1.0.0"
+  },
+  "samples": [
+    {
+      "displayName": "Dialogue_System",
+      "description": "Ready-to-use prefabs for dropdowns, text and manager setup for multilingual UI.",
+      "path": "Samples~"
+    }
+
+  ],
+  "keywords": [ "localization", "translation", "text", "ui", "multilingual", "csv" ],
+  "license": "MIT"
+}
